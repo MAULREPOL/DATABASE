@@ -64,11 +64,27 @@ app.get("/tareas", (req, res) => {
     );
 
 });
+app.delete("/tareas/:id", (req, res) => {
 
-app.get("/", (req, res) => {
-    res.send("FUNCIONA");
+    const id = req.params.id;
+
+    db.query(
+        "DELETE FROM tareas WHERE id = ?",
+        [id],
+        (err, result) => {
+
+            if (err) {
+                return res.status(500).json(err);
+            }
+
+            res.json({
+                mensaje: "Tarea eliminada"
+            });
+
+        }
+    );
+
 });
-
 app.listen(5000, () => {
     console.log("🚀 Servidor iniciado en puerto 5000");
 });

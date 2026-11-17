@@ -14,11 +14,10 @@ function AgregarTarea() {
   nuevatarea2.textContent = nuevatarea + " ";
 
   let botonEli = document.createElement("button");
-  botonEli.textContent = "Eliminar";
-  botonEli.onclick = function () {
-    eliminarTarea(nuevatarea);
-    nuevatarea2.remove();
-  };
+  botonEli.textContent = "BORRAR";
+  
+  
+
 
 
   nuevatarea2.appendChild(botonEli);
@@ -30,6 +29,19 @@ function AgregarTarea() {
   // Limpiar input
   document.getElementById("nuevatarea").value = "";
 }
+function eliminarTareaBD(id) {
+
+    fetch(`http://localhost:5000/tareas/${id}`, {
+        method: "DELETE"
+    })
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+        console.log(datos);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+  }
 
 function guardarTareaDB(tarea) {
 
@@ -81,9 +93,17 @@ function cargarTareas() {
 
                 botonEli.textContent = "Eliminar";
 
-                li.appendChild(botonEli);
+                botonEli.onclick = function() {
 
-                document.getElementById("listaTareas").appendChild(li);
+                  eliminarTareaBD(tarea.id);
+
+                  li.remove();
+
+                };
+
+              li.appendChild(botonEli);
+
+              document.getElementById("listaTareas").appendChild(li);
 
             });
 
