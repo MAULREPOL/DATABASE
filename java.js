@@ -62,22 +62,36 @@ function guardarTarea(tarea) {
 }
 
 function cargarTareas() {
-  let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
 
-  tareas.forEach(tarea => {
-    let li = document.createElement("li");
-    li.textContent = tarea + " ";
+    console.log("Cargando tareas...");
 
-    let botonEli = document.createElement("button");
-    botonEli.textContent = "Eliminar";
-    botonEli.onclick = function () {
-      eliminarTarea(tarea);
-      li.remove();
-    };
+    fetch("http://localhost:5000/tareas")
+        .then(respuesta => respuesta.json())
+        .then(tareas => {
 
-    li.appendChild(botonEli);
-    document.getElementById("listaTareas").appendChild(li);
-  });
+            console.log(tareas);
+
+            tareas.forEach(tarea => {
+
+                let li = document.createElement("li");
+
+                li.textContent = tarea.titulo + " ";
+
+                let botonEli = document.createElement("button");
+
+                botonEli.textContent = "Eliminar";
+
+                li.appendChild(botonEli);
+
+                document.getElementById("listaTareas").appendChild(li);
+
+            });
+
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
 }
 
 function eliminarTarea(tarea) {

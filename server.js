@@ -26,24 +26,7 @@ db.connect((err) => {
     console.log("✅ Base de datos conectada");
 });
 
-app.get("/prueba", (req, res) => {
 
-    db.query(
-        "INSERT INTO tareas (titulo) VALUES ('Prueba desde Node')",
-        (err, result) => {
-
-            if (err) {
-                console.log(err);
-                return res.send("Error");
-            }
-
-            console.log("✅ Tarea insertada");
-
-            res.send("Tarea insertada");
-        }
-    );
-
-});
 app.post("/tareas", (req, res) => {
 
     const { titulo } = req.body;
